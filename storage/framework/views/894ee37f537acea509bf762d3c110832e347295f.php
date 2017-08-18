@@ -1,0 +1,1 @@
+Sigue el link para recuperar clave <?php echo e(url('cambiar_clave')); ?>
