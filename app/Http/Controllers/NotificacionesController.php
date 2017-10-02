@@ -18,6 +18,7 @@ use App\Models\CicloAnio;
 use App\Models\Intervalo;
 use App\Models\Calendario;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class NotificacionesController extends Controller
 {
@@ -35,7 +36,6 @@ class NotificacionesController extends Controller
             Calendario::where('campania_id',$request->campania_id)->delete();
            // dd($request->campania_id);
         $campania=Campania::campania_por_id($request);//retorna campaña reciencreada
-      //dd($campania);
         if($campania->tipo_frecuencia==0)
         {
             $this->dias($campania); 
@@ -87,8 +87,8 @@ class NotificacionesController extends Controller
     protected function dias($campania)
     {
         $fecha=explode('-',$campania->fecha_inicio);
+        Log::info('Showing user profile for user: ');
         $fecha_envio=Carbon::createFromDate($fecha[0],$fecha[1],$fecha[2]);
-        
         if($campania->tipo_intervalo==2)
             
             $this->dias_intervalo_fechas($campania,$fecha_envio,$campania->ciclo_dias_0);        

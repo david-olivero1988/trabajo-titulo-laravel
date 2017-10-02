@@ -53,7 +53,7 @@ class Campania extends Model
                                        ->join('universos','campanias.universos_id','=','universos.id')
                                        ->join('procesos','universos.proceso_id','=','procesos.id')
                                        ->first();
-                      // dd($campania);
+                       dd($campania);
 
 
     }

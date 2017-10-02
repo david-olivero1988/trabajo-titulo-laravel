@@ -46,9 +46,9 @@ class CampaniaController extends Controller
         if($request->ajax())
         {
     
-        	$universos=Universo::where('proceso_id','=',$request->get('dato'))->get();
+          $universos=Universo::where('proceso_id','=',$request->get('dato'))->get();
           //dd($universos);
-        	return compact('universos');
+          return compact('universos');
         }
         
        
@@ -58,12 +58,15 @@ class CampaniaController extends Controller
          
           $filtros="?dato=dato";
          
-          
+          if($request->data=='si')
+            $edit='si';
+          else
+            $edit='no';
 
           //dd($request->actualizacion);
           
         
-        return view('campanias.listado_campanias',compact('campanias','procesos','filtros','request'));
+        return view('campanias.listado_campanias',compact('campanias','procesos','filtros','request','edit'));
         
     }
 
@@ -813,6 +816,7 @@ class CampaniaController extends Controller
     public function create()
     {
         $procesos=Proceso::all();
+       // dd($procesos);
       
         return view('campanias.nueva_campania',compact('procesos','universos'));
     }

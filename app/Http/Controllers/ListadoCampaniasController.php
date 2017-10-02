@@ -32,6 +32,9 @@ class ListadoCampaniasController extends Controller
         $campanias = Campania::campanias();
 
           $procesos = Proceso::all();
+          
+           \Log::info('Info log test=========================');
+           dd('test');
          
           $filtros="?dato=dato";
           //dd($request->actualizacion);
