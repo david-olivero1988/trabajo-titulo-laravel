@@ -50,6 +50,7 @@ class Notificacion extends Model
 
      protected function retornaNotificacionAutoManual($fecha_actual)
     {
+        dd($fecha_actual->toDateString());
       return Notificacion::select('*',
                                 'notificaciones.id as notificaciones_id',
                                 'notificaciones.fecha_envio as notificaciones_fecha_envio',
