@@ -170,7 +170,7 @@ class EnvioNotificacionController extends Controller
             //dd("algo");
 
             $envio_notificacion = Notificacion::retornaNotificacionAutoManual($fecha_actual);
-            dd($envio_notificacion);
+            //dd($envio_notificacion);
             if (empty($envio_notificacion->all())) {
                 return "no existen notificaciones para esta fecha";
             } else {
