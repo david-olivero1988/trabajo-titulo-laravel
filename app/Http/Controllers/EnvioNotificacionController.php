@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Excel;
 use FCM;
 ######FCM
+use Illuminate\Support\Facades\Log;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
@@ -61,17 +62,22 @@ class EnvioNotificacionController extends Controller
 
     protected function guardaNotificacionesDestinatarios($id_aux, $fecha_actual)
     {
-        // dd($fecha_actual);
+
         $calendario_condicion = Calendario::retornaNotificaciones($fecha_actual);
         //dd($calendario_condicion);
+        Log::info('trae calendario');
+        Log::info($calendario_condicion);
+        // dd($calendario_condicion);
         foreach ($calendario_condicion as $key => $value) {
-//dd($value->id_calendario);
+
             if ($id_aux != $value->calendario_id) {
 
                 $notificacion = new Notificacion;
                 $notificacion->campania_id = $value->campania_id;
                 $notificacion->fecha_envio = $fecha_actual->toDateString();
                 $notificacion->notificacion_enviada = 'NO';
+                Log::info('guardando notificacion');
+                Log::info($notificacion);
                 $notificacion->save();
                 $id_aux = $value->calendario_id;
 
@@ -86,6 +92,8 @@ class EnvioNotificacionController extends Controller
             $destinatario->enviado = 'NO';
             $destinatario->notificacion_id = $notificacion->id;
 
+            Log::info('guardando destinatario');
+            Log::info($destinatario);
             $destinatario->save();
 
         }
@@ -135,8 +143,9 @@ class EnvioNotificacionController extends Controller
         $fecha_actual = Carbon::now();
         //$fecha_actual= Carbon::create(2017, 04, 04);
         $confCamp_hora_envio = ConfCampania::first();
+        Log::info('configuracion de campaña');
+        Log::info($confCamp_hora_envio);
 
-        //dd($confCamp_hora_envio->hora);
         $hora_conf = Carbon::createFromFormat('g:i', $confCamp_hora_envio->hora);
         //dd($hora_conf);
         $hora = $fecha_actual->format('g:i:s');
@@ -154,10 +163,8 @@ class EnvioNotificacionController extends Controller
 
             ###consulta que añade beneficiarios con valor 1 y que les toque notificar en la fecha actual
 
-            // dd($calendario_condicion);
             ###guarda notificaciones y destinatarios en base de datos
             $this->guardaNotificacionesDestinatarios(0, $fecha_actual);
-            //dd("guardadas");
             /*++++++++++++++++++++fin automatica+++++++++++++++++++++++++++*/
 
             /*++++++++++++++++++++inicio manual+++++++++++++++++++++++++++*/
@@ -167,34 +174,32 @@ class EnvioNotificacionController extends Controller
 
             /*++++++++++++++++++++fin manual+++++++++++++++++++++++++++*/
 
-            //dd("algo");
-
+            Log::info($fecha_actual);
             $envio_notificacion = Notificacion::retornaNotificacionAutoManual($fecha_actual);
-            //dd($envio_notificacion);
+            // dd($envio_notificacion);
             if (empty($envio_notificacion->all())) {
                 return "no existen notificaciones para esta fecha";
             } else {
+                Log::info('hay notificacion');
+
                 $envio_notificacionAuto = Notificacion::retornaNotificacionActual($fecha_actual);
-                //dd($envio_notificacionAuto);
                 if (empty($envio_notificacionAuto->all())) {
-                    // dd();
+                    Log::info('hay notificacion manual');
                     $envio_notificacionManual = Notificacion::retornaNotificacionManual($fecha_actual);
 
                     $this->envioNotificacionManual($fecha_actual);
                     return "notificaciones manuales enviadas, no existen notificaciones automaticas para hoy";
 
                 } else {
+                    Log::info('hay notificacion automatica');
 
                     $fecha_actualizacion = $this->fechaUltimaActualizacion();
-                    //dd($fecha_actualizacion);
-                    //dd($fecha_actual);
+                    Log::info('fecha ultima actualizacion' . $fecha_actualizacion);
                     if ($fecha_actual->eq($fecha_actualizacion)) //compara fecha actual con fecha ultima acualización
                     {
 
-                        //dd("entra");
                         $envio_notificacion = Notificacion::retornaNotificacionManual($fecha_actual);
                         if (empty($envio_notificacion->all())) {
-
                             $this->envioNotificacionAutomatica($fecha_actual);
                             return "se enviaron notificaciones solo automaticas, ya que no hay manuales para hoy";
                         } else {
@@ -231,10 +236,8 @@ class EnvioNotificacionController extends Controller
     {
 
         $envio_notificacion = Notificacion::retornaNotificacionActual($fecha_actual);
-        //dd($envio_notificacion);
 
         $contadorRut = $this->conf_campanias($envio_notificacion);
-        //dd($contadorRut);
         $this->envioPush($envio_notificacion, $fecha_actual, $contadorRut);
     }
 
@@ -260,20 +263,16 @@ class EnvioNotificacionController extends Controller
     protected function conf_campanias($notificaciones)
     {
         $arrayAuxiliar = $this->llenaArregloAuxiliar($notificaciones);
-        //dd($arrayAuxiliar);
         $contadorRut = array();
-        // dd($notificaciones);
         foreach ($arrayAuxiliar as $key => $value) {
             foreach ($notificaciones as $k => $v) {
                 if ($value[0] == $v->rut) {
-                    //dd($value[1]);
                     $value[1]++;
 
                 }
             }
             array_push($contadorRut, $value);
         }
-        //dd($contadorRut);
 
         return $contadorRut;
 
@@ -285,12 +284,10 @@ class EnvioNotificacionController extends Controller
         $arrayAuxiliar = array();
         $arrayAuxiliar[0][0] = $notificaciones[0]->rut;
         $arrayAuxiliar[0][1] = 0;
-//dd($notificaciones);
         foreach ($notificaciones as $key => $value) {
             $aux = true;
             if ($key != 0) {
                 foreach ($arrayAuxiliar as $k => $v) {
-                    //dd($v[0]);
 
                     if ($v[0] == $value->rut) {
 
@@ -306,7 +303,6 @@ class EnvioNotificacionController extends Controller
 
             }
         }
-//dd($arrayAuxiliar);
         return $arrayAuxiliar;
     }
 
@@ -317,16 +313,10 @@ class EnvioNotificacionController extends Controller
         foreach ($envio_notificacion as $key => $value) {
             $generica = true;
 
-            //dd($value);
-            // if($key==3)
-            // dd($genericos);
-            //$conf_campania=ConfCampania::first();
             $generica = $this->verificaEnvio($contadorRut, $value, $fecha_actual, $genericos);
-            //dd($generica);
 
             if ($generica) {
 
-                //dd("aun no");
                 $optionBuiler = new OptionsBuilder();
                 $optionBuiler->setTimeToLive(60 * 20);
 
@@ -336,22 +326,21 @@ class EnvioNotificacionController extends Controller
                 $notificationBuilder->setTitle($value->asunto)
                     ->setBody($value->mensaje);
 
-                // dd($value);
                 $notification = $notificationBuilder->build();
 
                 $dataBuilder = new PayloadDataBuilder();
                 $dataBuilder->addData(['destinatario_id' => $value->destinatarios_id]);
 
                 $data = $dataBuilder->build();
-                //dd($value->fcm_token);
+
+                // dd($value->fcm_token);
                 //$token = $value->fcm_token;
-                // $token ="edmkzTTiNZA:APA91bHNDQjZvwmQzm1pP1JSLCAAlHpxu6yBExNEOZU-_CxOpQpK1y8G3EK50IP6rfbyx7a9veu_wei-gdKtY_W5E5nzxZMX2jvzPmti2pzkYdpXLkJMTuU9-Behg6xRqkmgchQbmsOw";
-                $downstreamResponse = FCM::sendTo($value->fcm_token, $option, $notification, $data);
+                $token = "edmkzTTiNZA:APA91bHNDQjZvwmQzm1pP1JSLCAAlHpxu6yBExNEOZU-_CxOpQpK1y8G3EK50IP6rfbyx7a9veu_wei-gdKtY_W5E5nzxZMX2jvzPmti2pzkYdpXLkJMTuU9-Behg6xRqkmgchQbmsOw";
+                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
                 // $downstreamResponse = FCM::sendTo($tokens, $option, $notification);
 
-                //dd($downstreamResponse);
+                // dd($downstreamResponse);
                 if ($downstreamResponse->numberSuccess() == 1) {
-                    //dd(1);
                     $notificacion = Notificacion::find($value->notificaciones_id);
                     $notificacion->notificacion_enviada = "SI";
                     $notificacion->save();
@@ -363,35 +352,23 @@ class EnvioNotificacionController extends Controller
                     $destinatario->save();
 
                 }
-                //dd($downstreamResponse->numberSuccess());
-                // if($cont==3)
-                //dd($cont);
-                //dd($downstreamResponse->numberSuccess());
-                //$cont++;
 
                 if ($downstreamResponse->numberFailure() == 1) {
-
+                    dd($downstreamResponse);
                 }
                 $downstreamResponse->numberModification();
 
             }
         }
-        //dd($downstreamResponse->numberSuccess());
 
     }
 
     protected function verificaEnvio($contadorRut, $notificacion, $fecha_actual, &$genericos)
     {
 
-        //dd($contadorRut);
         $conf_campania = ConfCampania::first();
-        //dd($conf_campania);
-        //dd($genericos);
         foreach ($contadorRut as $key => $value) {
-            // dd($value[0]);
             if ($notificacion->rut == $value[0]) {
-                // dd($conf_campania->num_notificaciones);
-                //dd($value[1]);
                 if ($value[1] > $conf_campania->num_notificaciones) {
                     foreach ($genericos as $key => $value) {
 
@@ -401,8 +378,6 @@ class EnvioNotificacionController extends Controller
                             $notificacion_update->save();
 
                             $destinatario = Destinatario::find($notificacion->destinatarios_id);
-                            // dd($destinatario);
-                            //dd();
                             $destinatario->fecha_envio = $fecha_actual->toDateString();
                             $destinatario->enviado = "SI";
                             $destinatario->save();
@@ -412,9 +387,7 @@ class EnvioNotificacionController extends Controller
                         }
                     }
                     $this->envioNotificacionConfigurada($conf_campania->mensaje_generico, $notificacion, $fecha_actual, $genericos);
-                    //dd();
                     array_push($genericos, $notificacion->rut);
-                    //dd($genericos);
                     return false;
                 }
                 return true;
