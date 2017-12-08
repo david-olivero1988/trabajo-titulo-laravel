@@ -61,30 +61,30 @@ class EnvioNotificacionController extends Controller
 
     protected function guardaNotificacionesDestinatarios($id_aux, $fecha_actual)
     {
-       // dd($fecha_actual);
+        // dd($fecha_actual);
         $calendario_condicion = Calendario::retornaNotificaciones($fecha_actual);
-         //dd($calendario_condicion);
+        //dd($calendario_condicion);
         foreach ($calendario_condicion as $key => $value) {
 //dd($value->id_calendario);
             if ($id_aux != $value->calendario_id) {
 
-                $notificacion                       = new Notificacion;
-                $notificacion->campania_id          = $value->campania_id;
-                $notificacion->fecha_envio          = $fecha_actual->toDateString();
+                $notificacion = new Notificacion;
+                $notificacion->campania_id = $value->campania_id;
+                $notificacion->fecha_envio = $fecha_actual->toDateString();
                 $notificacion->notificacion_enviada = 'NO';
                 $notificacion->save();
                 $id_aux = $value->calendario_id;
 
-                $calendario           = Calendario::find($value->calendario_id);
+                $calendario = Calendario::find($value->calendario_id);
                 $calendario->guardada = 'SI';
                 $calendario->save();
             }
 
-            $destinatario                   = new Destinatario;
+            $destinatario = new Destinatario;
             $destinatario->rut_beneficiario = $value->rut_beneficiario;
-            $destinatario->leido            = 'NO';
-            $destinatario->enviado          = 'NO';
-            $destinatario->notificacion_id  = $notificacion->id;
+            $destinatario->leido = 'NO';
+            $destinatario->enviado = 'NO';
+            $destinatario->notificacion_id = $notificacion->id;
 
             $destinatario->save();
 
@@ -100,13 +100,13 @@ class EnvioNotificacionController extends Controller
         //  dd($campania_manual);
         foreach ($campania_manual as $key => $value) {
             // dd();
-            $notificacion                       = new Notificacion;
-            $notificacion->campania_id          = $value->campania_id;
-            $notificacion->fecha_envio          = $fecha_actual->toDateString();
+            $notificacion = new Notificacion;
+            $notificacion->campania_id = $value->campania_id;
+            $notificacion->fecha_envio = $fecha_actual->toDateString();
             $notificacion->notificacion_enviada = 'NO';
             $notificacion->save();
             //$value->
-            $calendario           = Calendario::find($value->calendario_id);
+            $calendario = Calendario::find($value->calendario_id);
             $calendario->guardada = 'SI';
             $calendario->save();
             // dd();
@@ -115,11 +115,11 @@ class EnvioNotificacionController extends Controller
             //dd($results);
             foreach ($results as $k => $v) {
 
-                $destinatario                   = new Destinatario;
+                $destinatario = new Destinatario;
                 $destinatario->rut_beneficiario = $v->rut;
-                $destinatario->leido            = 'NO';
-                $destinatario->enviado          = 'NO';
-                $destinatario->notificacion_id  = $notificacion->id;
+                $destinatario->leido = 'NO';
+                $destinatario->enviado = 'NO';
+                $destinatario->notificacion_id = $notificacion->id;
 
                 $destinatario->save();
 
@@ -139,15 +139,15 @@ class EnvioNotificacionController extends Controller
         //dd($confCamp_hora_envio->hora);
         $hora_conf = Carbon::createFromFormat('g:i', $confCamp_hora_envio->hora);
         //dd($hora_conf);
-        $hora        = $fecha_actual->format('g:i:s');
-        $mediodia    = $fecha_actual->format('A');
+        $hora = $fecha_actual->format('g:i:s');
+        $mediodia = $fecha_actual->format('A');
         $hora_actual = Carbon::createFromFormat('g:i:s', $hora);
 
         // return $hora_actual->hour;
         //return $hora_conf->hour;
         //if ($hora_actual->hour == $hora_conf->hour and $hora_actual->minute == $hora_conf->minute and $confCamp_hora_envio->mediodia == $mediodia) {
-            //return "entra";
-        if(true){
+        //return "entra";
+        if (true) {
             //$id_aux=0;
 
             /*++++++++++++++++++++inicio automatica+++++++++++++++++++++++++++*/
@@ -242,7 +242,7 @@ class EnvioNotificacionController extends Controller
     {
 
         $envio_notificacion = Notificacion::retornaNotificacionManual($fecha_actual);
-        $contadorRut        = $this->conf_campanias($envio_notificacion);
+        $contadorRut = $this->conf_campanias($envio_notificacion);
         $this->envioPush($envio_notificacion, $fecha_actual, $contadorRut);
 
     }
@@ -282,7 +282,7 @@ class EnvioNotificacionController extends Controller
     protected function llenaArregloAuxiliar($notificaciones) //ordena todos los rut sin repeticiones
 
     {
-        $arrayAuxiliar       = array();
+        $arrayAuxiliar = array();
         $arrayAuxiliar[0][0] = $notificaciones[0]->rut;
         $arrayAuxiliar[0][1] = 0;
 //dd($notificaciones);
@@ -352,13 +352,13 @@ class EnvioNotificacionController extends Controller
                 //dd($downstreamResponse);
                 if ($downstreamResponse->numberSuccess() == 1) {
                     //dd(1);
-                    $notificacion                       = Notificacion::find($value->notificaciones_id);
+                    $notificacion = Notificacion::find($value->notificaciones_id);
                     $notificacion->notificacion_enviada = "SI";
                     $notificacion->save();
 
-                    $destinatario              = Destinatario::find($value->destinatarios_id);
+                    $destinatario = Destinatario::find($value->destinatarios_id);
                     $destinatario->fecha_envio = $fecha_actual->toDateString();
-                    $destinatario->enviado     = "SI";
+                    $destinatario->enviado = "SI";
 
                     $destinatario->save();
 
@@ -396,7 +396,7 @@ class EnvioNotificacionController extends Controller
                     foreach ($genericos as $key => $value) {
 
                         if ($value == $notificacion->rut) {
-                            $notificacion_update                       = Notificacion::find($notificacion->notificaciones_id);
+                            $notificacion_update = Notificacion::find($notificacion->notificaciones_id);
                             $notificacion_update->notificacion_enviada = "SI";
                             $notificacion_update->save();
 
@@ -404,7 +404,7 @@ class EnvioNotificacionController extends Controller
                             // dd($destinatario);
                             //dd();
                             $destinatario->fecha_envio = $fecha_actual->toDateString();
-                            $destinatario->enviado     = "SI";
+                            $destinatario->enviado = "SI";
                             $destinatario->save();
                             // dd("entro");
                             return false;
@@ -454,7 +454,7 @@ class EnvioNotificacionController extends Controller
         if ($downstreamResponse->numberSuccess() == 1) {
             // dd($fecha_actual);
 
-            $notificacion_update                       = Notificacion::find($notificacion->notificaciones_id);
+            $notificacion_update = Notificacion::find($notificacion->notificaciones_id);
             $notificacion_update->notificacion_enviada = "SI";
             $notificacion_update->save();
             //dd($notificacion);
@@ -462,7 +462,7 @@ class EnvioNotificacionController extends Controller
             // dd($destinatario);
             //dd();
             $destinatario->fecha_envio = $fecha_actual->toDateString();
-            $destinatario->enviado     = "SI";
+            $destinatario->enviado = "SI";
 
             $destinatario->save();
 
