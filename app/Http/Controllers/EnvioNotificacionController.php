@@ -333,7 +333,7 @@ class EnvioNotificacionController extends Controller
 
                 $data = $dataBuilder->build();
 
-                // dd($value->fcm_token);
+                dd($value->fcm_token);
                 //$token = $value->fcm_token;
                 $token = "edmkzTTiNZA:APA91bHNDQjZvwmQzm1pP1JSLCAAlHpxu6yBExNEOZU-_CxOpQpK1y8G3EK50IP6rfbyx7a9veu_wei-gdKtY_W5E5nzxZMX2jvzPmti2pzkYdpXLkJMTuU9-Behg6xRqkmgchQbmsOw";
                 $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);

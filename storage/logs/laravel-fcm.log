@@ -658,3 +658,6 @@
 [2017-12-08 16:14:18] Laravel-FCM.INFO: notification send to 1 devices success: 0 failures: 1 number of modified token : 0  [] []
 [2017-12-08 16:14:52] Laravel-FCM.INFO: notification send to 1 devices success: 0 failures: 1 number of modified token : 0  [] []
 [2017-12-08 16:15:26] Laravel-FCM.INFO: notification send to 1 devices success: 0 failures: 1 number of modified token : 0  [] []
+[2018-01-22 19:55:59] Laravel-FCM.INFO: notification send to 1 devices success: 0 failures: 1 number of modified token : 0  [] []
+[2018-01-22 21:09:34] Laravel-FCM.INFO: notification send to 1 devices success: 0 failures: 1 number of modified token : 0  [] []
+[2018-01-22 21:09:42] Laravel-FCM.INFO: notification send to 1 devices success: 0 failures: 1 number of modified token : 0  [] []
