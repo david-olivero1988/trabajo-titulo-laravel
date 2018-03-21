@@ -29,8 +29,8 @@ class TrazabilidadController extends Controller
     /*++++++++++++++++++++++++++++++inicio función pública index+++++++++++++++++++++++++*/
     public function index()
     {
-
-
+        $arrayName = array('dhhdh' => 'ndanda ' );
+        d($arrayName, 'nsjsjs');
         $notificaciones=Notificacion::retornaNotificacion();
 
         //dd($notificaciones[0]);
