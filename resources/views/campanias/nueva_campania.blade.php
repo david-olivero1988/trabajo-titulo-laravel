@@ -30,9 +30,9 @@ Agregar campaña
 </div>
 <div id="valida_descripcion" class="alert alert-danger" style="display:none"></div>
 
-	<div class="jumbotron"> 
+	<div class="jumbotron">
 		Agregar campaña
-	</div> 
+	</div>
 	<form method="POST" action="{{route('nueva_campana.store')}}" id="universo_manual" enctype="multipart/form-data">
 		<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 		<div class="row">
@@ -75,12 +75,12 @@ Agregar campaña
 						</select>
 
 					</div>
-<!--++++++++++++++++++++++++++++++++++++inicio campania automatica++++++++++++++++++++++++++++++++++++-->	
+<!--++++++++++++++++++++++++++++++++++++inicio campania automatica++++++++++++++++++++++++++++++++++++-->
 					<div id="automatica_div" class="ocultar_tipo">
 
 						<div class="col-md-6" >
 
-							<label class="title_label_nueva_campania">Proceso</label>	<br>	
+							<label class="title_label_nueva_campania">Proceso</label>	<br>
 
 							<select id="select_proceso" name="proceso" class="select_box_body" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" >
 								<option value="">seleccionar...</option>
@@ -100,7 +100,7 @@ Agregar campaña
 							<select id="select_universo" name="universo" class="select_box_body_universo" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" >
 								<option value="">seleccionar...</option>
 							</select>
-							
+
 							<a id="nuevo_universo"><input style="margin:0px; float:none; width:80px" class="btn btn-danger btn-sm input_btn_buscar_admin_user" type="" value="NUEVO"></a>
 						</div>
 						<div class="col-md-12"><label class="title_label" style="margin-bottom: 10px">Descripción del universo</label></div>
@@ -114,7 +114,7 @@ Agregar campaña
 					<div id="manual_div" class="ocultar_tipo col-md-12" style="padding:0px">
 						<label class="col-md-12 title_label">Universo</label>
 						<div class="col-md-12">
-							<div class="col-md-5 ajuste" >						
+							<div class="col-md-5 ajuste" >
 								<input class="" value="" id="id_universo_manual"  name="" >
 								<input style="display:none"  id="uni_man" value="no">
 							</div>
@@ -129,7 +129,7 @@ Agregar campaña
 						<label class="col-md-12 title_label">Descripción</label>
 						<div class="col-md-12">
 							<textarea id="descripcion_manual" name="descripcion_manual" rows="10" cols="40" style="resize:none; width:95%; height:60px;border:none;" placeholder="Descripción universo...."  oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')"></textarea>
-							
+
 						</div>
 
 					</div>
@@ -138,7 +138,7 @@ Agregar campaña
 				</div>
 			</div>
 			<style>
-              
+
               .espacio{
                 margin-left: 5px;
               }
@@ -154,7 +154,7 @@ Agregar campaña
 					<div class="col-md-12">
 						<select id="select_repetir_cada" name="frecuencia" class="select_box_body_universo" style="width:100%" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" required>
 							<option value="">Seleccionar...</option>
-							
+
 							<option value="por_dia">Diario</option>
 							<option value="por_semana">Semanal</option>
 							<option value="por_mes">Mensual</option>
@@ -165,19 +165,19 @@ Agregar campaña
 					<div class="col-md-12"><label class="col-md-12 " style="border-bottom: solid 1px #8e9091; margin-top: 10px"></label></div>
 					<div id="frecuencia">
 
-<!-- ++++++++++++++++++++++++++++++inicio por dia ++++++++++++++++++++++++++++++++++++++++++-->					
+<!-- ++++++++++++++++++++++++++++++inicio por dia ++++++++++++++++++++++++++++++++++++++++++-->
 						<div id="por_dia_div" class="ocultar">
 							<label class="col-md-12 title_label">Repetir cada</label><br>
 							<div class="col-md-12">
-								
+
 								<input class="input_box_text_panel col-md-12 input_numeros ciclo_dias" maxlength="4" style="width:15%" type="text" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" required id="">
-								
+
 								<label class="title_label espacio">Días</label>
 							</div>
 						</div>
-<!-- ++++++++++++++++++++++++++++++fin por dia ++++++++++++++++++++++++++++++++++++++++++-->		
+<!-- ++++++++++++++++++++++++++++++fin por dia ++++++++++++++++++++++++++++++++++++++++++-->
 
-<!-- ++++++++++++++++++++++++++++++inicio por semana ++++++++++++++++++++++++++++++++++++++++++-->			
+<!-- ++++++++++++++++++++++++++++++inicio por semana ++++++++++++++++++++++++++++++++++++++++++-->
 						<div id="por_semana_div" class="ocultar">
 							<label class="col-md-12 title_label">Repetir cada</label><br>
 							<div class="col-md-12">
@@ -193,11 +193,11 @@ Agregar campaña
 
 									<div class="col-md-12"><input class="col-md-2 ciclo_semanas check"  style="width:15px; height:15px;margin-top:7px;" type="checkbox"  value="miercoles"><div class="col-md-2 label_check_box" >Miércoles</div></div>
 
-									<div class="col-md-12"><input class="col-md-2 ciclo_semanas check"  style="width:15px; height:15px;margin-top:7px;" type="checkbox"  value="jueves" ><div class="col-md-2 label_check_box" >Jueves</div></div>	
+									<div class="col-md-12"><input class="col-md-2 ciclo_semanas check"  style="width:15px; height:15px;margin-top:7px;" type="checkbox"  value="jueves" ><div class="col-md-2 label_check_box" >Jueves</div></div>
 
 									<div class="col-md-12"><input class="col-md-2 ciclo_semanas check"  style="width:15px; height:15px;margin-top:7px;" type="checkbox" value="viernes"><div class="col-md-2 label_check_box" >Viernes</div></div>
 
-									<div class="col-md-12"><input class="col-md-2 ciclo_semanas check"  style="width:15px; height:15px;margin-top:7px;" type="checkbox"  value="sabado" ><div class="col-md-2 label_check_box" >Sábado</div></div>	
+									<div class="col-md-12"><input class="col-md-2 ciclo_semanas check"  style="width:15px; height:15px;margin-top:7px;" type="checkbox"  value="sabado" ><div class="col-md-2 label_check_box" >Sábado</div></div>
 
 									<div class="col-md-12"><input class="col-md-2 ciclo_semanas check"  style="width:15px; height:15px;margin-top:7px;" type="checkbox"  value="domingo"><div class="col-md-2 label_check_box" >Domingo</div></div>
 
@@ -207,18 +207,18 @@ Agregar campaña
 
 <!-- ++++++++++++++++++++++++++++++fin por semana ++++++++++++++++++++++++++++++++++++++++++-->
 
-<!-- ++++++++++++++++++++++++++++++inicio por mes ++++++++++++++++++++++++++++++++++++++++++-->			
+<!-- ++++++++++++++++++++++++++++++inicio por mes ++++++++++++++++++++++++++++++++++++++++++-->
 						<div id="por_mes_div" class="ocultar">
 							<label class="col-md-12 title_label">Indique ciclo</label><br>
 							<div class="col-md-12">
 								<select class="select_box_body_universo ciclo_meses" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" required id="select_mensual_dia_semana" style="width:50%" >
 									<option value="">Seleccionar...</option>
 									<option value="dia_del_mes">Día del mes</option>
-									<option value="dia_semana_mes">Día de la semana del mes</option>								
+									<option value="dia_semana_mes">Día de la semana del mes</option>
 								</select>
 							</div>
 							<div class="col-md-12"><label class="col-md-12 " style="border-bottom: solid 1px #8e9091; margin-top: 10px"></label></div>
-<!-- ++++++++++++++++++++++++++++++inicio dia del mes ++++++++++++++++++++++++++++++++++++++++++-->								
+<!-- ++++++++++++++++++++++++++++++inicio dia del mes ++++++++++++++++++++++++++++++++++++++++++-->
 							<div id="dia_del_mes_div" class="ocultar_mensual" >
 								<label class="col-md-12 title_label">Repetir el día</label><br>
 								<div class="col-md-12">
@@ -226,9 +226,9 @@ Agregar campaña
 										<option value="">0</option>
 										<?php for($i=1;$i<31;$i++){?>
 										<option  value="<?= $i?>"><?= $i ?></option>
-										<?php }?>				
+										<?php }?>
 									</select>
-									
+
 								</div>
 								<label class="col-md-12 title_label">Cada</label><br>
 								<div class="col-md-12">
@@ -237,18 +237,18 @@ Agregar campaña
 								</div>
 							</div>
 
-<!-- ++++++++++++++++++++++++++++++fin dia del mes ++++++++++++++++++++++++++++++++++++++++++-->	
+<!-- ++++++++++++++++++++++++++++++fin dia del mes ++++++++++++++++++++++++++++++++++++++++++-->
 
-<!-- ++++++++++++++++++++++++++++++inicio semana del mes ++++++++++++++++++++++++++++++++++++++++++-->	
+<!-- ++++++++++++++++++++++++++++++inicio semana del mes ++++++++++++++++++++++++++++++++++++++++++-->
 
 
 							<div id="dia_semana_mes_div" class="ocultar_mensual" >
 								<label class="col-md-12 title_label">Repetir el</label><br>
 								<div class="col-md-12">
 									<select class="select_box_body_universo mes_borrar_1 ciclo_meses" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" required style="width:20%" >
-										
+
 										<option value="primer">Primer</option>
-										<option value="segundo">Segundo</option>						
+										<option value="segundo">Segundo</option>
 										<option value="tercer">Tercer</option>
 										<option value="cuarto">Cuarto</option>
 										<option value="ultimo">Último</option>
@@ -258,14 +258,14 @@ Agregar campaña
 								<label class="col-md-12 title_label">Día</label><br>
 								<div class="col-md-12">
 									<select class="select_box_body_universo mes_borrar_1 ciclo_meses"  style="width:30%" >
-										
+
 										<option value="lunes">Lunes</option>
-										<option value="martes">Martes</option>							
+										<option value="martes">Martes</option>
 										<option value="miercoles">Miércoles</option>
 										<option value="jueves">Jueves</option>
-										<option value="viernes">Viernes</option>							
+										<option value="viernes">Viernes</option>
 										<option value="sabado">Sábado</option>
-										<option value="domingo">Domingo</option>									
+										<option value="domingo">Domingo</option>
 									</select>
 								</div>
 								<label class="col-md-12 title_label">Cada</label><br>
@@ -275,7 +275,7 @@ Agregar campaña
 								</div>
 							</div>
 
-<!-- ++++++++++++++++++++++++++++++fin semana del mes ++++++++++++++++++++++++++++++++++++++++++-->	
+<!-- ++++++++++++++++++++++++++++++fin semana del mes ++++++++++++++++++++++++++++++++++++++++++-->
 
 						</div>
 
@@ -292,8 +292,8 @@ Agregar campaña
 							</div>
 
 							<div class="col-md-12">
-								<select class="select_box_body_universo ciclo_anios"  id="select_anual_dia_mes" style="width:50%; margin-top: 10px" >	
-									<option value="">Seleccionar...</option>  								
+								<select class="select_box_body_universo ciclo_anios"  id="select_anual_dia_mes" style="width:50%; margin-top: 10px" >
+									<option value="">Seleccionar...</option>
 									<option value="por_anio_dia_mes">Día del mes</option>
 									<option value="por_anio_dia_semana_mes">Día de la semana del mes</option>
 
@@ -310,23 +310,23 @@ Agregar campaña
 										<option value="<?= $i?>"><?= $i ?></option>
 										<?php }?>
 									</select>
-									
+
 								</div>
 								<label class="col-md-12 title_label">Del mes de</label><br>
 								<div class="col-md-12">
 									<select class="select_box_body_universo anio_borrar_0 ciclo_anios" id="select_meses"  style="width:30%" >
-										
+
 										<option value="enero">Enero</option>
-										<option value="febrero">Febrero</option>							
+										<option value="febrero">Febrero</option>
 										<option value="marzo">Marzo</option>
 										<option value="abril">Abril</option>
-										<option value="mayo">Mayo</option>							
+										<option value="mayo">Mayo</option>
 										<option value="junio">Junio</option>
-										<option value="julio">Julio</option>	
-										<option value="agosto">Agosto</option>						
+										<option value="julio">Julio</option>
+										<option value="agosto">Agosto</option>
 										<option value="septiembre">Septiembre</option>
 										<option value="octubre">Octubre</option>
-										<option value="noviembre">Noviembre</option>						
+										<option value="noviembre">Noviembre</option>
 										<option value="diciembre">Diciembre</option>
 
 									</select>
@@ -340,9 +340,9 @@ Agregar campaña
 								<label class="col-md-12 title_label">El</label><br>
 								<div class="col-md-12">
 									<select class="select_box_body_universo anio_borrar_1 ciclo_anios"  style="width:30%" >
-										
+
 										<option value="primer">Primer</option>
-										<option value="segundo">Segundo</option>							
+										<option value="segundo">Segundo</option>
 										<option value="tercer">Tercer</option>
 										<option value="cuarto">Cuarto</option>
 										<option value="ultimo">Último</option>
@@ -352,32 +352,32 @@ Agregar campaña
 								<label class="col-md-12 title_label"></label><br>
 								<div class="col-md-12">
 									<select class="select_box_body_universo anio_borrar_1 ciclo_anios" style="width:30%" >
-										
+
 										<option value="lunes">Lunes</option>
-										<option value="martes">Martes</option>						
+										<option value="martes">Martes</option>
 										<option value="miercoles">Miércoles</option>
 										<option value="jueves">Jueves</option>
-										<option value="viernes">Viernes</option>	
+										<option value="viernes">Viernes</option>
 										<option value="sabado">Sábado</option>
-										<option value="domingo">Domingo</option>	
+										<option value="domingo">Domingo</option>
 
 									</select>
 								</div>
 								<label class="col-md-12 title_label">De</label><br>
 								<div class="col-md-12">
 									<select class="select_box_body_universo anio_borrar_1 ciclo_anios"  style="width:30%" >
-										
+
 										<option value="enero">Enero</option>
-										<option value="febrero">Febrero</option>							
+										<option value="febrero">Febrero</option>
 										<option value="marzo">Marzo</option>
 										<option value="abril">Abril</option>
-										<option value="mayo">Mayo</option>							
+										<option value="mayo">Mayo</option>
 										<option value="junio">Junio</option>
-										<option value="julio">Julio</option>	
-										<option value="agosto">Agosto</option>						
+										<option value="julio">Julio</option>
+										<option value="agosto">Agosto</option>
 										<option value="septiembre">Septiembre</option>
 										<option value="octubre">Octubre</option>
-										<option value="noviembre">Noviembre</option>						
+										<option value="noviembre">Noviembre</option>
 										<option value="diciembre">Diciembre</option>
 
 									</select>
@@ -396,7 +396,7 @@ Agregar campaña
 				</div>
 
 			</div>
-			
+
 
 			<div class="col-md-4" style="padding:0px 0px 0px 4px">
 				<div class="cajas_altura_paneles">
@@ -413,12 +413,12 @@ Agregar campaña
 							<option value="sin_fecha">Sin fecha de finalización</option>
 							<option value="finaliza_despues_de">Finaliza después de</option>
 							<option value="finaliza_el">Finaliza el</option>
-							
+
 						</select>
-						
+
 					</div>
 					<div class="col-md-12"><label class="col-md-12 " style="border-bottom: solid 1px #8e9091; margin-top: 10px"></label></div>
-<!-- +++++++++++++++++++++++inicio intervalo finaliza despues de++++++++++++++++++++++++++++++++++++++-->			
+<!-- +++++++++++++++++++++++inicio intervalo finaliza despues de++++++++++++++++++++++++++++++++++++++-->
 					<div id="finaliza_despues_de_div" class="ocultar_intervalo ">
 						<div class="col-md-12">
 
@@ -426,26 +426,26 @@ Agregar campaña
 
 							<label class="title_label espacio">Repeticiones</label>
 						</div>
-					</div>		
+					</div>
 <!-- +++++++++++++++++++++++++fin intervalo finaliza despues de+++++++++++++++++++++++++++++++++++++-->
 
-<!-- ++++++++++++++++++++++++++++++inicio intervalo finaliza el++++++++++++++++++++++++++++++++++++++-->									
+<!-- ++++++++++++++++++++++++++++++inicio intervalo finaliza el++++++++++++++++++++++++++++++++++++++-->
 					<div id="finaliza_el_div" class="ocultar_intervalo">
 						<div class="col-md-12">
 							<input id="fecha_fin" class="input_box_text_panel col-md-12 datepicker intervalo_borrar_1" type="text" name="fecha_fin">
 						</div>
 					</div>
-<!-- ++++++++++++++++++++++++++++++fin intervalo finaliza el+++++++++++++++++++++++++++++++++++++++++-->	
+<!-- ++++++++++++++++++++++++++++++fin intervalo finaliza el+++++++++++++++++++++++++++++++++++++++++-->
 
 
 				</div>
 			</div>
-	
+
 			<input type="text" id="id_universo_manual_construir" style="display:none">
 
 			<div class="col-md-12" style="margin:5px 0px 5px 0px; ">
 				<input style="" id="guardar" class="btn btn-danger btn-sm btn_footer input_btn_buscar_admin_user" type="submit" value="GUARDAR">
-				<a href="{{url('listado_campanas')}}"><input style="" class="btn btn-danger btn-sm btn_footer input_btn_buscar_admin_user" type="" value="VOLVER"></a>	
+				<a href="{{url('listado_campanas')}}"><input style="" class="btn btn-danger btn-sm btn_footer input_btn_buscar_admin_user" type="" value="VOLVER"></a>
 
 			</div>
 		</form>
@@ -462,16 +462,16 @@ Agregar campaña
 
 
 
-	
 
-	<script type="text/javascript"  src="{{url('js/jquery-3.1.1.min.js')}}"></script> 
-	<script src="{{url('js/nueva_campania.js')}}"></script> 
 
-	<script src="{{url('js/bootstrap.min.js')}}"></script> 
+	<script type="text/javascript"  src="{{url('js/jquery-3.1.1.min.js')}}"></script>
+	<script src="{{url('js/nueva_campania.js')}}"></script>
+
+	<script src="{{url('js/bootstrap.min.js')}}"></script>
 	<script src="{{url('js/jquery-1.12.4.js')}}"></script>
 	<script src="{{url('js/jquery-ui.js')}}"></script>
-	<script src="{{url('js/jquery.numeric.js')}}"></script> 
-	<script src="{{url('js/formato_fechas.js')}}"></script> 
+	<script src="{{url('js/jquery.numeric.js')}}"></script>
+	<script src="{{url('js/formato_fechas.js')}}"></script>
 	<link rel="shortcut icon" href="{{asset('img/favicon.ico')}}"  >
 
 
@@ -482,17 +482,17 @@ Agregar campaña
 
 		if($("#select_meses").val()=="febrero")
 				{
-					
+
 					$("#dia_mes_mes option[value='30']").remove();
 					$("#dia_mes_mes option[value='29']").remove();
 					cambia=true;
 				}
 			$("#select_meses").change(function()
 			{
-				
+
 				if($("#select_meses").val()=="febrero")
 				{
-					
+
 					$("#dia_mes_mes option[value='30']").remove();
 					$("#dia_mes_mes option[value='29']").remove();
 					cambia=true;
@@ -505,31 +505,25 @@ Agregar campaña
 					$("#dia_mes_mes").append("<option value='30'>30</option>");
 
 					}
-					
+
 
 				}
 			});
 
-			
+
 			/*$('#carga_universo').click(function() {
 			if(!$("#descripcion_manual").val())
-				{	
-					
+				{
+
 					$("#valida_descripcion").text("Debe ingresar descripción del universo para guardar en base de datos");
 					$("#valida_descripcion").css("display","block");
 					setTimeout(function(){$("#valida_descripcion").css("display","none")},3000);
 					return false;
-					
+
 				}
 			});*/
 			$('#carga_universo').change(function() {
-				
-				
-					
-					
-				
-					
-					//$("#valida_descripcion").css("display","none");
+
 					var formData = new FormData(document.getElementById("universo_manual"));
 					var valor=$("#carga_universo").val();
 					var url = "{{url('/universo_manual')}}";
@@ -537,20 +531,19 @@ Agregar campaña
 						url : url,
 						type : "post",
 						data : formData,
-						dataType: 'json',   
+						dataType: 'json',
 						cache: false,
 						contentType: false,
 						processData: false,
 					}).done(function(data) {
-						//console.log(data.universo);
-						
+
 						if(data.extension=="xls" && data.formato=="correcto"){
 
 							$("#id_universo_manual_construir").attr("name","universo_id");
 							$("#id_universo_manual_construir").val(data.universo_id);
 							$("#id_universo_manual").val(data.universo);
 								$("#uni_man").val("si");
-							
+
 
 							//$("#id_universo_manual").attr("disabled","disabled");
 		            		//alert(data.universo);
@@ -570,15 +563,15 @@ Agregar campaña
 			            	setTimeout(function(){$("#valida_descripcion").css("display","none")},10000);
 			            }
 			        });
-				
-			
+
+
 			});
 
 			$("#nuevo_universo").click(function()
 			{
 				//alert($("#mensaje").val());
 				window.location.href = "{{route('nuevo_universo.create')}}?asunto="+$("#asunto").val()+"&mensaje="+$("#mensaje").val()+"&tipo_campania=automatica";
-				
+
 			});
 
 
@@ -606,7 +599,7 @@ Agregar campaña
 					$("#descripcion_manual").attr('required', 'required');
 					$("#uni_man").attr("name","universo_manual");
 					$("#uni_man").val("dentro");
-					
+
 
 				}else
 				{
@@ -617,13 +610,13 @@ Agregar campaña
 				}
 			});
 
-			
+
 
 			$(".input_numeros").numeric({ decimal: false, negative: false });
 
 			$("#campanias").css('background', '#0091c2');
 			var dato= $('#select_proceso option:selected').attr('id');
-			
+
 			$.ajax({
 				url:"{{route('nueva_campana.index')}}",
 				data:{dato:dato},
@@ -641,15 +634,15 @@ Agregar campaña
 						  }
 
 						});
-					
-					
+
+
 				}
 			});
 			$('#select_proceso').change(function(){
 
 				var dato= $('#select_proceso option:selected').attr('id');
 				$('#select_universo option').each(function() {
-					$(this).remove();				    
+					$(this).remove();
 				});
 
 				$.ajax({
@@ -657,8 +650,8 @@ Agregar campaña
 					data:{dato:dato},
 					success: function(result){
 						//console.log(result.universos[0].id);
-						
-							 
+
+
 						$.each( result.universos, function( key, value ) {
 							 // alert( key + ": " + value.nombre );
 
@@ -671,15 +664,15 @@ Agregar campaña
 							 }
 
 							});
-						
-						
+
+
 					}
 				});
 			});
 
 			var dato= $('#select_proceso option:selected').attr('id');
 				$('#select_universo option').each(function() {
-					$(this).remove();				    
+					$(this).remove();
 				});
 
 				$.ajax({
@@ -687,8 +680,8 @@ Agregar campaña
 					data:{dato:dato},
 					success: function(result){
 						//console.log(result.universos[0].id);
-						
-							 
+
+
 						$.each( result.universos, function( key, value ) {
 							 // alert( key + ": " + value.nombre );
 
@@ -701,12 +694,12 @@ Agregar campaña
 							 }
 
 							});
-						
-						
+
+
 					}
 				});
 
-			
+
 			$('#descripcion_universo').text($('#select_universo option:selected').attr('id'));
 			$('#select_universo').change(function(){
 				$('#descripcion_universo').text($('#select_universo option:selected').attr('id'));
@@ -733,18 +726,18 @@ $("#universo_manual").submit(function()
 			$("#diaSemana").css("display","block");
 			return false;
 		}
-			
-		
+
+
 	}
 
 	if(validaFechaDDMMAAAA($("#selector").val()))
-	{	
-		
+	{
+
 		if($("#fecha_fin").attr("name")=="finaliza_el")
 		{
 			if(validaFechaDDMMAAAA($("#fecha_fin").val()))
 			{
-				
+
 				return true;
 			}
 			else
@@ -761,12 +754,12 @@ $("#universo_manual").submit(function()
 	return false;
 
 })
-	
-	
-		});		
+
+
+		});
 
 	</script>
 
-	
+
 </body>
 </html>

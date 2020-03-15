@@ -20,22 +20,17 @@ class NotificacionesController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request);
         if ($request->editar) {
             Calendario::where('campania_id', $request->campania_id)->delete();
         }
 
-        // dd($request->campania_id);
         $campania = Campania::campania_por_id($request); //retorna campaña reciencreada
-        //dd($campania);
         if ($campania->tipo_frecuencia == 0) {
             $this->dias($campania);
-            // dd("notificaciones diarias guardadas");
         }
 
         if ($campania->tipo_frecuencia == 1) {
             $this->semanas($campania);
-            //dd("notificaciones semanales guardadas");
         }
 
         if ($campania->tipo_frecuencia == 2) {
@@ -45,8 +40,6 @@ class NotificacionesController extends Controller
                 $this->meses1($campania);
             }
 
-//dd("notificaciones mensuales guardadas");
-
         }
 
         if ($campania->tipo_frecuencia == 3) {
@@ -55,12 +48,7 @@ class NotificacionesController extends Controller
             } else {
                 $this->anio1($campania);
             }
-
-            // dd("notificaciones anuales guardadas");
-
         }
-//dd();
-        // dd($campania);
 
         return redirect()->action('CampaniaController@index', ['data' => 1]);
     }
@@ -92,7 +80,6 @@ class NotificacionesController extends Controller
         $fecha = explode('-', $campania->fecha_inicio);
         $fecha_inicio = Carbon::createFromDate($fecha[0], $fecha[1], $fecha[2]);
 
-        //$repeticiones=$fecha_envio->diffInDays($fecha_fin)/$campania->ciclo_dias_0;
 
         for ($i = 0; $i < 200; $i++) {
 
@@ -152,9 +139,7 @@ class NotificacionesController extends Controller
         $dias_semana_num1 = array('lunes' => 1, 'martes' => 2, 'miercoles' => 3, 'jueves' => 4, 'viernes' => 5, 'sabado' => 6, 'domingo' => 7);
         $repeticiones1 = $repeticiones + 10;
         for ($i = 0; $i < $repeticiones1; $i++) {
-            //dd($dias_semana);
             foreach ($dias_semana as $key => $value) {
-                // dd($dias_semana_num);
                 if ($value) {
                     $notificacion = new Calendario;
 
@@ -163,13 +148,10 @@ class NotificacionesController extends Controller
 
                     if ($fecha_fin) {
 
-                        // dd($fecha_envio1);
                         if ($i > 0) {
                             $fecha_envio1->addWeeks($campania->ciclo_semanas_1 * $i);
                             $aux = 1;
                         }
-                        //if($i==18)
-                        //dd($fecha_envio2);
 
                         $fecha_dia = $fecha_envio1->dayOfWeek;
                         if ($fecha_dia == 0) {
@@ -223,7 +205,6 @@ class NotificacionesController extends Controller
             }
             $cont = $i;
         }
-        // dd($fecha_fin);
     }
 
     protected function meses0($campania)
@@ -263,23 +244,18 @@ class NotificacionesController extends Controller
 
     protected function guarda_datos_con_repeticion($repeticion, $fecha_inicio, $campania, $meses)
     {
-        //dd($fecha_inicio);
         $fecha = explode('-', $campania->fecha_inicio);
         $fecha_envio = Carbon::createFromDate($fecha[0], $fecha[1], $fecha[2]);
 
-        //dd($fecha_envio);
         if ($campania->tipo_frecuencia == 2 && $campania->repetir_dia_0) {
             $fecha_envio->day = $campania->repetir_dia_0;
         }
 
         if ($campania->tipo_frecuencia == 3 && $campania->repetir_el_0) {
 
-            //dd($campania->del_mes_0);
             $fecha_envio->month = $this->retorna_numero_mes($campania->del_mes_0);
             $fecha_envio->day = $campania->repetir_el_0;
             $meses = $meses * 12;
-            //dd($meses);
-            //dd($fecha_envio);
 
         }
 
@@ -289,14 +265,9 @@ class NotificacionesController extends Controller
                 $fecha_envio = $this->fecha_posicion_dia($campania->repetir_el_1, $campania->dia_1, "", $fecha_envio);
             }
 
-            //dd($fecha_envio);
-            //dd($meses);
-            //if($i>0)dd($fecha_envio);
             if ($campania->tipo_frecuencia == 3 && $campania->repetir_el_1) //anio 1
             {
-                //
 
-                //dd($fecha_envio);
                 $fecha_envio->month = $this->retorna_numero_mes($campania->mes_1);
 
                 $fecha_envio = $this->fecha_posicion_dia($campania->repetir_el_1, $campania->dia_1, $campania->mes_1, $fecha_envio);
@@ -304,10 +275,8 @@ class NotificacionesController extends Controller
                 $meses = $campania->ciclos_anios * 12;
 
             }
-            // dd($fecha_envio);
 
             if ($fecha_envio->gte($fecha_inicio)) {
-                //dd($fecha_envio);
                 $notificacion = new Calendario;
                 $notificacion->fecha_envio = $fecha_envio->toDateString();
                 $notificacion->campania_id = $campania->id;
@@ -326,13 +295,6 @@ class NotificacionesController extends Controller
                     $notificacion->save();
                 }
 
-                //dd($meses);
-                // dd($fecha_envio);
-                //dd($fecha_envio->day);
-
-                //dd($fecha_envio->day);
-                // dd($campania->tipo_frecuencia);
-                //if($fecha_envio->day>28)$fecha_envio->subWeek();##revisar
                 if ($fecha_envio->day >= 28 && $campania->tipo_frecuencia == 2) {
 
                     $fecha_envio->subWeek(1);
@@ -350,8 +312,6 @@ class NotificacionesController extends Controller
                     $fecha_envio->day = $campania->repetir_el_0;
                 }
 
-                // if($i>0)dd($fecha_envio);
-                //   dd($fecha_envio);
             } else {
                 if ($campania->tipo_frecuencia == 3) {
                     $fecha_envio->addYears(1);
@@ -367,23 +327,18 @@ class NotificacionesController extends Controller
 
     protected function guarda_datos_con_repeticion1($repeticion, $fecha_inicio, $campania, $meses)
     {
-        //dd($fecha_inicio);
         $fecha = explode('-', $campania->fecha_inicio);
         $fecha_envio = Carbon::createFromDate($fecha[0], $fecha[1], $fecha[2]);
 
-        //dd($fecha_envio);
         if ($campania->tipo_frecuencia == 2 && $campania->repetir_dia_0) {
             $fecha_envio->day = $campania->repetir_dia_0;
         }
 
         if ($campania->tipo_frecuencia == 3 && $campania->repetir_el_0) {
 
-            //dd($campania->del_mes_0);
             $fecha_envio->month = $this->retorna_numero_mes($campania->del_mes_0);
             $fecha_envio->day = $campania->repetir_el_0;
             $meses = $meses * 12;
-            //dd($meses);
-            //dd($fecha_envio);
 
         }
 
@@ -393,14 +348,10 @@ class NotificacionesController extends Controller
                 $fecha_envio = $this->fecha_posicion_dia($campania->repetir_el_1, $campania->dia_1, "", $fecha_envio);
             }
 
-            //dd($fecha_envio);
-            //dd($meses);
-            //if($i>0)dd($fecha_envio);
             if ($campania->tipo_frecuencia == 3 && $campania->repetir_el_1) //anio 1
             {
-                //
 
-                //dd($fecha_envio);
+
                 $fecha_envio->month = $this->retorna_numero_mes($campania->mes_1);
 
                 $fecha_envio = $this->fecha_posicion_dia($campania->repetir_el_1, $campania->dia_1, $campania->mes_1, $fecha_envio);
@@ -410,18 +361,10 @@ class NotificacionesController extends Controller
             }
 
             if ($fecha_envio->gte($fecha_inicio)) {
-                //dd($fecha_envio);
                 $notificacion = new Calendario;
                 $notificacion->fecha_envio = $fecha_envio->toDateString();
                 $notificacion->campania_id = $campania->id;
                 $notificacion->save();
-                //dd($fecha_envio);
-
-                //dd($meses);
-                // dd($fecha_envio);
-                //dd($fecha_envio->day);
-
-                //if($fecha_envio->day>28)$fecha_envio->subWeek();##revisar
 
                 $fecha_envio->addMonths($meses);
                 if ($campania->tipo_frecuencia == 2 && $campania->repetir_dia_0) {
@@ -432,8 +375,6 @@ class NotificacionesController extends Controller
                     $fecha_envio->day = $campania->repetir_el_0;
                 }
 
-                // if($i>0)dd($fecha_envio);
-                //   dd($fecha_envio);
             } else {
                 if ($campania->tipo_frecuencia == 3) {
                     $fecha_envio->addYears(1);
@@ -466,7 +407,6 @@ class NotificacionesController extends Controller
 
             $fecha_envio->day = $campania->repetir_el_0;
             $fecha_envio->month = $this->retorna_numero_mes($campania->del_mes_0);
-            //dd($fecha_envio);
             $meses = $campania->ciclos_anios * 12;
 
         }
@@ -490,7 +430,6 @@ class NotificacionesController extends Controller
             }
 
             if ($fecha_envio->gte($fecha_inicio) and $fecha_envio->lte($fecha_fin)) {
-                //dd("entra");
 
                 $notificacion = new Calendario;
                 $notificacion->fecha_envio = $fecha_envio->toDateString();
@@ -520,14 +459,12 @@ class NotificacionesController extends Controller
                 $i = 200;
             }
         }
-        //  dd();
 
     }
 
     protected function fecha_posicion_dia($posicion, $dia_semana, $mes, $fecha)
     {
 
-        //dd($this->retorna_fecha($dia_semana,$fecha,3));
         switch ($posicion) {
             case "primer":
                 return $this->retorna_fecha($dia_semana, $fecha, 1);
@@ -635,7 +572,6 @@ class NotificacionesController extends Controller
             $this->guarda_datos_con_fecha($fecha_inicio, $campania, $campania->ciclos_anios);
         }
         if ($campania->tipo_intervalo == 1) {
-            //dd($campania);
             $this->guarda_datos_con_repeticion($campania->repeticiones, $fecha_inicio, $campania, $campania->ciclos_anios);
         }
         if ($campania->tipo_intervalo == 0) {
@@ -650,11 +586,9 @@ class NotificacionesController extends Controller
         $fecha_inicio = Carbon::createFromDate($fecha[0], $fecha[1], $fecha[2]);
 
         if ($campania->tipo_intervalo == 2) {
-            // dd($campania);
             $this->guarda_datos_con_fecha($fecha_inicio, $campania, $campania->ciclos_anios);
         }
         if ($campania->tipo_intervalo == 1) {
-            //dd($campania);
             $this->guarda_datos_con_repeticion1($campania->repeticiones, $fecha_inicio, $campania, $campania->ciclos_anios);
         }
         if ($campania->tipo_intervalo == 0) {

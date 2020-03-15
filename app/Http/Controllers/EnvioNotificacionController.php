@@ -152,12 +152,7 @@ class EnvioNotificacionController extends Controller
         $mediodia = $fecha_actual->format('A');
         $hora_actual = Carbon::createFromFormat('g:i:s', $hora);
 
-        // return $hora_actual->hour;
-        //return $hora_conf->hour;
-        //if ($hora_actual->hour == $hora_conf->hour and $hora_actual->minute == $hora_conf->minute and $confCamp_hora_envio->mediodia == $mediodia) {
-        //return "entra";
         if (true) {
-            //$id_aux=0;
 
             /*++++++++++++++++++++inicio automatica+++++++++++++++++++++++++++*/
 
@@ -176,10 +171,11 @@ class EnvioNotificacionController extends Controller
 
             Log::info($fecha_actual);
             $envio_notificacion = Notificacion::retornaNotificacionAutoManual($fecha_actual);
-            // dd($envio_notificacion);
+
             if (empty($envio_notificacion->all())) {
                 return "no existen notificaciones para esta fecha";
             } else {
+
                 Log::info('hay notificacion');
 
                 $envio_notificacionAuto = Notificacion::retornaNotificacionActual($fecha_actual);
@@ -207,7 +203,6 @@ class EnvioNotificacionController extends Controller
                             return "se han enviados notificaciones manuales y automaticas correspondientes a la fecha";
                         }
                     } else {
-                        //dd("fuera");
                         $envio_notificacion = Notificacion::retornaNotificacionManual($fecha_actual);
                         if (empty($envio_notificacion->all())) {
                             return "no existen notificaciones para esta fecha, ya que la tabla cumplimmiento de condicion no ha sido actualizada, y no existen notificaciones manuales para hoy";
@@ -222,7 +217,6 @@ class EnvioNotificacionController extends Controller
 
             }
         }
-        // dd("no entra");
         return "no es la hora configurada";
     }
 
@@ -253,7 +247,6 @@ class EnvioNotificacionController extends Controller
     protected function envioNotificacionAutoManual($fecha_actual)
     {
         $envio_notificacion = Notificacion::retornaNotificacionAutoManual($fecha_actual);
-        //dd($envio_notificacion);
 
         $contadorRut = $this->conf_campanias($envio_notificacion);
         $this->envioPush($envio_notificacion, $fecha_actual, $contadorRut);
@@ -333,14 +326,14 @@ class EnvioNotificacionController extends Controller
 
                 $data = $dataBuilder->build();
 
-                // dd($value->fcm_token);
-                //$token = $value->fcm_token;
                 $token = "edmkzTTiNZA:APA91bHNDQjZvwmQzm1pP1JSLCAAlHpxu6yBExNEOZU-_CxOpQpK1y8G3EK50IP6rfbyx7a9veu_wei-gdKtY_W5E5nzxZMX2jvzPmti2pzkYdpXLkJMTuU9-Behg6xRqkmgchQbmsOw";
+
+                $token = "fu9pqP3433U:APA91bGQCMnfuXz0mOpe-pmg0dOsrng3d3qIUX5PhOKMlWfB5bmvLVNBlQZBE8Yr8Lxbz2uNOld9N9z_RDwXHjBs1jUKQ_MQCKcN698b4nGJeCMWSyfcMVcj7VRWOrMLouvYxBytW1Lu";
                 $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
                 // $downstreamResponse = FCM::sendTo($tokens, $option, $notification);
 
-                // dd($downstreamResponse);
                 if ($downstreamResponse->numberSuccess() == 1) {
+
                     $notificacion = Notificacion::find($value->notificaciones_id);
                     $notificacion->notificacion_enviada = "SI";
                     $notificacion->save();
@@ -381,7 +374,6 @@ class EnvioNotificacionController extends Controller
                             $destinatario->fecha_envio = $fecha_actual->toDateString();
                             $destinatario->enviado = "SI";
                             $destinatario->save();
-                            // dd("entro");
                             return false;
 
                         }

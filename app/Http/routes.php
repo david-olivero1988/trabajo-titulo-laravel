@@ -45,10 +45,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::auth();
 
-    // Route::get('/','Auth\AuthController@getLogin');
 
     Route::get('/', function () {
-        // dd(!Auth::check());
         if (!Auth::check()) {
             return view('auth.login');
         } else {

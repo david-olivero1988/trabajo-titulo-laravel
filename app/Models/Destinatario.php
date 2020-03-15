@@ -39,7 +39,7 @@ class Destinatario extends Model
                     n.id as notificaciones_id,
                     n.fecha_envio as notificaciones_fecha_envio,
                     d.fecha_envio as destinatarios_fecha_envio
-                    
+
                     from destinatarios d
                     inner join beneficiarios b on (d.rut_beneficiario = b.rut)
                     inner join notificaciones n on (d.notificacion_id = n.id)
@@ -47,11 +47,11 @@ class Destinatario extends Model
                     inner join universos u on (c.universos_id = u.id)
                     inner join procesos p on (u.proceso_id = p.id)
                     inner join contacto con on (d.rut_beneficiario = con.rut)
-                    
+
                     where ".$condicion." order by d.rut_beneficiario";
        // dd($q);
 
-    	
+
 
     	return $notificaciones = DB::select($q);
     }

@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Mail;
-//use Session;
-
-use Illuminate\Http\Request;
-use App\Http\Requests;
-use Laracasts\Flash\Flash;
 use App\User;
+//
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Session;
+use Laracasts\Flash\Flash;
 
 class PasswordController extends Controller
 {
@@ -25,7 +21,7 @@ class PasswordController extends Controller
     | and uses a simple trait to include this behavior. You're free to
     | explore this trait and override any methods you wish to tweak.
     |
-    */
+     */
 
     use ResetsPasswords;
 
@@ -34,26 +30,24 @@ class PasswordController extends Controller
      *
      * @return void
      */
-    
 
-
-
-    public function getEmail(Request $request){
+    public function getEmail(Request $request)
+    {
         //if($request->valor)
-       // flash('El RUT ingresado no esta en los registros de usuarios.', 'danger');
-       // flash()->overlay('Configuración exitosa!, se enviará un mensaje genérico cuando el RUT reciba '.$request->num_notificaciones.' o más notificaciones', 'Información');
-       
+        // flash('El RUT ingresado no esta en los registros de usuarios.', 'danger');
+        // flash()->overlay('Configuración exitosa!, se enviará un mensaje genérico cuando el RUT reciba '.$request->num_notificaciones.' o más notificaciones', 'Información');
+
         return view('auth.password');
     }
 
-      protected function getResetCredentials(Request $request)
-    {   
+    protected function getResetCredentials(Request $request)
+    {
         return $request->only(
             'email', 'password', 'password_confirmation', 'token'
         );
     }
-protected function getResetValidationRules()
-    {   
+    protected function getResetValidationRules()
+    {
         return [
             'token' => 'required',
             'email' => 'required|email',
@@ -61,28 +55,25 @@ protected function getResetValidationRules()
         ];
     }
 
-    
-/*
-    public function postEmail(Request $request){
 
-        Mail::send('login.clave',$request->all(), function($msj){
-            $msj->subject('correo de prueba');
-            $msj->to('davidoliverom@gmail.com');
-        });
+public function postEmail(Request $request){
 
-        
-        Flash::success("algo");
+    Mail::send('login.clave',$request->all(), function($msj){
+    $msj->subject('correo de prueba');
+    $msj->to('davidoliverom@gmail.com');
+    });
 
-        return Redirect::to('login');
+    Flash::success("algo");
 
-       //return redirect()->route('login');
-    }
-    */
+    return Redirect::to('login');
+
+//return redirect()->route('login');
+}
 
 
-  public function reset(Request $request)
+    public function reset(Request $request)
     {
-            //dd();
+        //dd();
         $this->validate(
             $request,
             $this->getResetValidationRules(),
@@ -90,74 +81,70 @@ protected function getResetValidationRules()
             $this->getResetValidationCustomAttributes()
         );
 //dd("distintos");
-        if($this->validacion($request))
-        {
-           
+        if ($this->validacion($request)) {
+
             return view("auth.passwords.reset")->with($request->token);
         }
         $credentials = $this->getResetCredentials($request);
-        
+
         $broker = $this->getBroker();
 
-   
-   //$user=User::where('email',$credentials['email']);
-   //$password=$credentials['password'];
+        //$user=User::where('email',$credentials['email']);
+        //$password=$credentials['password'];
         $response = Password::broker($broker)->reset($credentials, function ($user, $password) {
             //dd("algo");
             $this->resetPassword($user, $password);
         });
-     // dd($response);
-//dd($response);
+        // dd($response);
+        //dd($response);
         switch ($response) {
             case Password::PASSWORD_RESET:
-           // dd("bien");
+                // dd("bien");
                 return $this->getResetSuccessResponse($response);
             default:
-          // dd($response);
+                // dd($response);
                 return $this->getResetFailureResponse($request, $response);
         }
     }
 
-    protected function validacion($req){
-            if($req->password!=$req->password_confirmation){
-                return true;
-            }
-            return false;
+    protected function validacion($req)
+    {
+        if ($req->password != $req->password_confirmation) {
+            return true;
+        }
+        return false;
     }
 
-    public function postEmails(Request $request){
-        //dd($request);
-        $respuesta=User::where("rut",$request->rut)->where("dv",$request->dv)->first();
-        if($respuesta){
-            $email=$respuesta->email;
-        }else{
+    public function postEmails(Request $request)
+    {
 
-            $valor=0;
+        $respuesta = User::where("rut", $request->rut)->where("dv", $request->dv)->first();
+        if ($respuesta) {
+            $email = $respuesta->email;
+        } else {
+
+            $valor = 0;
             flash('El RUT ingresado es inválido.', 'info');
             return view('auth.password');
-            //flash('Error! Por favor ingresar horario PM o AM.', 'danger');                  
+            //flash('Error! Por favor ingresar horario PM o AM.', 'danger');
             //return redirect()->action('ConfiguracionGeneralController@index');
         }
-        
-        
-        return redirect()->action('Auth\PasswordController@postEmail',compact("email"));
+
+        return redirect()->action('Auth\PasswordController@postEmail', compact("email"));
     }
 
-
-
-
-       protected function getResetSuccessResponse($response)
-    {   
+    protected function getResetSuccessResponse($response)
+    {
         //flash()->overlay('Tu clave se actualizó exitosamente', 'Recuperación de clave');
-        $actualizacion="si";
-       //return redirect("listado_campanas");//->action('CampaniaController@index');//->with('status', trans($response));
-        return redirect()->action('CampaniaController@index',compact("actualizacion"));
+        $actualizacion = "si";
+        //return redirect("listado_campanas");//->action('CampaniaController@index');//->with('status', trans($response));
+        return redirect()->action('CampaniaController@index', compact("actualizacion"));
     }
 
-     protected function getResetFailureResponse(Request $request, $response)
+    protected function getResetFailureResponse(Request $request, $response)
     {
         //dd(trans($response));
-       // dd(['email' => trans($response)]);
+        // dd(['email' => trans($response)]);
         return redirect()->back()
             ->withInput($request->only('email'))
             ->withErrors(['email' => trans($response)]);
@@ -184,16 +171,16 @@ protected function getResetValidationRules()
         }
     }
 
-      protected function getSendResetLinkEmailSuccessResponse($response)
-    {   
-        
-       // Session::flash('message', "Special message goes here");
-        
+    protected function getSendResetLinkEmailSuccessResponse($response)
+    {
+
+        // Session::flash('message', "Special message goes here");
+
         //dd("hola");
         //$resultado="si";
         flash('Hemos enviado un link a tu correo electrónico para que recuperes tu clave.', 'info');
-        return view('auth.password');//->with('status', 'algo'));//trans($response));
-        
+        return view('auth.password'); //->with('status', 'algo'));//trans($response));
+
     }
 
     protected function getSendResetLinkEmailFailureResponse($response)
@@ -211,4 +198,3 @@ protected function getResetValidationRules()
 ###envio de mail trait################################################
 
 }
-
