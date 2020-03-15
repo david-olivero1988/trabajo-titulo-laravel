@@ -16,21 +16,21 @@ Configuración genereal
         {!! session('flash_notification.message') !!}
     </div>
   @endif
-    
 
-      <div class="jumbotron"> 
+
+      <div class="jumbotron">
         Configuración general de campañas
-      </div> 
+      </div>
       <form action="configuracion_general/store" method="POST">
         <div class="row" >
-        
+
           <div class="col-md-6" style="padding:0px 5px 0px 0px;">
 
             <div class="caja_altura">
               <div class="cajas_cabecera" style="">
                 <p>Configuración</p>
               </div>
-              
+
                 <div class="cajas_cuerpo">
                       <div class="row">
 
@@ -45,28 +45,28 @@ Configuración genereal
 
                       <label class="col-md-12 title_label_panel_doble">Las notificaciones serán añadidas a partir de las:</label>
                       <div class="col-md-12">
-                        <input value="{{$hora}}" type="datetime" id="hora" class="timepicker" class="input_box_text input_border" name="hora" style="width:300px" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" required>            
+                        <input value="{{$hora}}" type="datetime" id="hora" class="timepicker" class="input_box_text input_border" name="hora" style="width:300px" oninvalid="setCustomValidity('Completar este campo es obligatorio')" oninput="setCustomValidity('')" required>
                       </div>
-                      <div class="col-md-12 hora_config">                    
-                              
+                      <div class="col-md-12 hora_config">
+
                         @if($conf_campania->mediodia=='AM')
-                          <div class="col-md-12"><input class="radio_hora col-md-2 " name="mediodia" style="width: 15px; margin-top: 1px" type="radio"  value="AM" checked><div class="col-md-2 label_check_box" >AM</div></div> 
+                          <div class="col-md-12"><input class="radio_hora col-md-2 " name="mediodia" style="width: 15px; margin-top: 1px" type="radio"  value="AM" checked><div class="col-md-2 label_check_box" >AM</div></div>
 
                          <div class="col-md-12"><input class="radio_hora col-md-2" name="mediodia" style="width: 15px; margin-top: 1px" type="radio" value="PM"><div class="col-md-2 label_check_box" >PM</div></div>
                          @elseif($conf_campania->mediodia=='PM')
-                          <div class="col-md-12"><input class="radio_hora col-md-2 " name="mediodia" style="width: 15px; margin-top: 1px" type="radio"  value="AM"><div class="col-md-2 label_check_box" >AM</div></div> 
+                          <div class="col-md-12"><input class="radio_hora col-md-2 " name="mediodia" style="width: 15px; margin-top: 1px" type="radio"  value="AM"><div class="col-md-2 label_check_box" >AM</div></div>
 
                          <div class="col-md-12"><input class="radio_hora col-md-2" name="mediodia" style="width: 15px; margin-top: 1px" type="radio" value="PM" checked><div class="col-md-2 label_check_box" >PM</div></div>
                          @else
-                          <div class="col-md-12"><input class="radio_hora col-md-2 " name="mediodia" style="width: 15px; margin-top: 1px" type="radio"  value="AM"><div class="col-md-2 label_check_box" >AM</div></div> 
+                          <div class="col-md-12"><input class="radio_hora col-md-2 " name="mediodia" style="width: 15px; margin-top: 1px" type="radio"  value="AM"><div class="col-md-2 label_check_box" >AM</div></div>
 
                          <div class="col-md-12"><input class="radio_hora col-md-2" name="mediodia" style="width: 15px; margin-top: 1px" type="radio" value="PM"><div class="col-md-2 label_check_box" >PM</div></div>
                          @endif
                     </div>
-                    
+
 
                 </div>
-              
+
 
             </div>
           </div>
@@ -78,7 +78,7 @@ Configuración genereal
               <div class="cajas_cuerpo">
               <label class="col-md-12 title_label_panel_doble">Nombre de usuario</label>
               <label class="col-md-12 title_label_panel_doble" style="font-size: 12px">{{$conf_campania->usuario}}</label>
-                
+
               <label class="col-md-12 title_label_panel_doble">Fecha de actualización</label>
               <label class="col-md-12 title_label_panel_doble" style="font-size: 12px">{{$fecha_hora}}</label>
               <input type="text" value="{{Auth::user()->nombre_usuario}}" name="usuario" style="display:none">
@@ -89,13 +89,13 @@ Configuración genereal
         </div>
 
         <div class="col-md-12" style="margin:5px 0px 5px 0px; ">
-              <input style="" class="btn btn-danger btn-sm btn_footer input_btn_buscar_admin_user" type="submit" value="GUARDAR">
+              <input id="guardar-btn" style="" class="btn btn-danger btn-sm btn_footer input_btn_buscar_admin_user" type="submit" value="GUARDAR">
 
-              <a href="{{url('listado_campanas')}}"><input style="" class="btn btn-danger btn-sm btn_footer input_btn_buscar_admin_user" type="" value="VOLVER"></a>         
+              <a href="{{url('listado_campanas')}}"><input style="" class="btn btn-danger btn-sm btn_footer input_btn_buscar_admin_user" type="" value="VOLVER"></a>
 
         </div>
         </form>
-      
+
 
     </div>
 
@@ -107,11 +107,11 @@ Configuración genereal
 
 
     <script type="text/javascript"  src="{{url('js/jquery-3.1.1.min.js')}}"></script>
-  <script src="{{url('js/bootstrap.min.js')}}"></script>  
-  <script src="{{url('js/nueva_campania.js')}}"></script> 
-    
- <script src="{{url('js/jquery.timepicker.js')}}"></script> 
- <script src="{{url('js/jquery.numeric.js')}}"></script> 
+  <script src="{{url('js/bootstrap.min.js')}}"></script>
+  <script src="{{url('js/nueva_campania.js')}}"></script>
+
+ <script src="{{url('js/jquery.timepicker.js')}}"></script>
+ <script src="{{url('js/jquery.numeric.js')}}"></script>
  <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}"  >
   <script type="text/javascript">
   $(document).ready(function(){
@@ -123,13 +123,14 @@ Configuración genereal
       dynamic: true,
       interval: 30,
       dropdown: false,
-
     });
-  
-  $("#hora").numeric({ decimal: false, negative: false });
- 
+
+    $("#hora").numeric({ decimal: false, negative: false });
+
+
   });
-    
+
+
   </script>
 </body>
 </html>
