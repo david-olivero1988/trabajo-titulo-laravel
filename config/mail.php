@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'apps@ingresa.cl', 'name' => 'Ingresa'],
+    'from' => ['address' => 'davidoliverom@gmail.com', 'name' => 'Ingresa'],
 
     /*
     |--------------------------------------------------------------------------

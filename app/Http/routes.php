@@ -26,7 +26,7 @@ Route::post('password_email', 'Auth\PasswordController@postEmails');
 Route::get('recuperar_clave', 'Auth\PasswordController@postEmail');
 
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset');
+Route::post('password/reset', 'Auth\PasswordController@reset');
 
 Route::get('/cambiar_clave', function () {
     return view('login.cambiar_clave');
