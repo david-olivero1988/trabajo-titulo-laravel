@@ -150,7 +150,6 @@ class PasswordController extends Controller
     protected function getSendResetLinkEmailSuccessResponse($response)
     {
 
-
         flash('Hemos enviado un link a tu correo electrónico para que recuperes tu clave.', 'info');
         return view('auth.password'); //->with('status', 'algo'));//trans($response));
 
@@ -160,14 +159,11 @@ class PasswordController extends Controller
     {
         flash('No se ha logrado enviar un mail de recuperación, contacte al administrador.', 'info');
         return view('auth.password');
-        //return redirect()->back()->withErrors(['email' => trans($response)]);
     }
 
     protected function getEmailSubject()
     {
         return property_exists($this, 'subject') ? $this->subject : 'Recuperación de clave ADN';
     }
-
-###envio de mail trait################################################
 
 }

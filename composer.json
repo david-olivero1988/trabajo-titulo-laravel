@@ -12,7 +12,8 @@
         "maatwebsite/excel": "~2.1.0",
         "kozz/laravel-guzzle-provider": "~6.0",
         "malahierba-lab/chile-rut": "5.1.*",
-        "brozot/laravel-fcm": "^1.2"
+        "brozot/laravel-fcm": "^1.2",
+        "doctrine/dbal": "^2.9"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

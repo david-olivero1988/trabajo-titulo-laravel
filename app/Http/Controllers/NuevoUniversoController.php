@@ -120,6 +120,7 @@ class NuevoUniversoController extends Controller
                 }
             }
             if ($formato == 'incorrecto') {
+                $archivo->delete($path, $filename);
                 return response()->json(compact("extension", "formato"));
             }
 
@@ -127,8 +128,8 @@ class NuevoUniversoController extends Controller
             $universo = $universo1[0];
             $nuevo_universo = new Universo;
             $nuevo_universo->nombre_universo = $universo;
-
             $nuevo_universo->nombre_archivo = $filename;
+            $nuevo_universo->descripcion = $request->descripcion_manual;
             $nuevo_universo->proceso_id = 1;
             $nuevo_universo->tipo_universo = 'manual';
             $nuevo_universo->save();

@@ -66,11 +66,9 @@ class TrazabilidadIndividualController extends Controller
 
     public function exportar(Request $request)
     {
-        //dd($request);
         $condicion = $this->condicion($request);
-        // dd("pasa");
+
         $notificaciones_por_rut_query = Destinatario::destinatariosPorFiltros($condicion);
-        // dd($notificaciones_por_rut_query);
 
         foreach ($notificaciones_por_rut_query as $key => $value) {
             if ($value->destinatarios_fecha_envio) {
@@ -85,8 +83,8 @@ class TrazabilidadIndividualController extends Controller
             }
         }
 
-        foreach ($notificaciones_por_rut_query as $key => $value) {
 
+        foreach ($notificaciones_por_rut_query as $key => $value) {
             $listado_campanias_excel[$key]['RUT'] = $value->rut_beneficiario;
             $listado_campanias_excel[$key]['Nombres'] = $value->nombres;
             $listado_campanias_excel[$key]['Apellidos'] = $value->apellidos;

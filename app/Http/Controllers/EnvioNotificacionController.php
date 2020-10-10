@@ -21,11 +21,7 @@ class EnvioNotificacionController extends Controller
 
     public function __construct()
     {
-        //dd(Auth::check());
-        // dd(Auth::user());
-        //dd($this->auth);
-        //dd($auth);
-        //$this->middleware('auth');
+
     }
 
     /**
@@ -44,15 +40,14 @@ class EnvioNotificacionController extends Controller
 
         ###consulta que añade beneficiarios con valor 1 y que les toque notificar en la fecha actual
 
-        // dd($calendario_condicion);
-        ###guarda notificaciones y destinatarios en base de datos
         $this->guardaNotificacionesDestinatarios($id_aux, $fecha_actual);
-//dd("guardadas");
-        /*++++++++++++++++++++fin automatica+++++++++++++++++++++++++++*/
+
+/*++++++++++++++++++++fin automatica+++++++++++++++++++++++++++*/
 
 /*++++++++++++++++++++inicio manual+++++++++++++++++++++++++++*/
 
         ##guarda notificaciones y los destinatarios de las campañas manuales
+
         $this->guardaNotificacionesDestinatariosManual($fecha_actual);
 
 /*++++++++++++++++++++fin manual+++++++++++++++++++++++++++*/
@@ -64,10 +59,11 @@ class EnvioNotificacionController extends Controller
     {
 
         $calendario_condicion = Calendario::retornaNotificaciones($fecha_actual);
-        //dd($calendario_condicion);
+        // dd($calendario_condicion);
+
         Log::info('trae calendario');
         Log::info($calendario_condicion);
-        // dd($calendario_condicion);
+
         foreach ($calendario_condicion as $key => $value) {
 
             if ($id_aux != $value->calendario_id) {
@@ -147,77 +143,78 @@ class EnvioNotificacionController extends Controller
         Log::info($confCamp_hora_envio);
 
         $hora_conf = Carbon::createFromFormat('g:i', $confCamp_hora_envio->hora);
-        //dd($hora_conf);
+
         $hora = $fecha_actual->format('g:i:s');
         $mediodia = $fecha_actual->format('A');
         $hora_actual = Carbon::createFromFormat('g:i:s', $hora);
 
-        if (true) {
 
-            /*++++++++++++++++++++inicio automatica+++++++++++++++++++++++++++*/
 
-            ###consulta que añade beneficiarios con valor 1 y que les toque notificar en la fecha actual
+        /*++++++++++++++++++++inicio automatica+++++++++++++++++++++++++++*/
 
-            ###guarda notificaciones y destinatarios en base de datos
-            $this->guardaNotificacionesDestinatarios(0, $fecha_actual);
-            /*++++++++++++++++++++fin automatica+++++++++++++++++++++++++++*/
+        ###consulta que añade beneficiarios con valor 1 y que les toque notificar en la fecha actual
 
-            /*++++++++++++++++++++inicio manual+++++++++++++++++++++++++++*/
+        ###guarda notificaciones y destinatarios en base de datos
+        $this->guardaNotificacionesDestinatarios(0, $fecha_actual);
+        /*++++++++++++++++++++fin automatica+++++++++++++++++++++++++++*/
 
-            ##guarda notificaciones y los destinatarios de las campañas manuales
-            $this->guardaNotificacionesDestinatariosManual($fecha_actual);
+        /*++++++++++++++++++++inicio manual+++++++++++++++++++++++++++*/
 
-            /*++++++++++++++++++++fin manual+++++++++++++++++++++++++++*/
+        ##guarda notificaciones y los destinatarios de las campañas manuales
+        $this->guardaNotificacionesDestinatariosManual($fecha_actual);
 
-            Log::info($fecha_actual);
-            $envio_notificacion = Notificacion::retornaNotificacionAutoManual($fecha_actual);
+        /*++++++++++++++++++++fin manual+++++++++++++++++++++++++++*/
 
-            if (empty($envio_notificacion->all())) {
-                return "no existen notificaciones para esta fecha";
+        Log::info($fecha_actual);
+        $envio_notificacion = Notificacion::retornaNotificacionAutoManual($fecha_actual);
+
+        if (empty($envio_notificacion->all())) {
+            return "no existen notificaciones para esta fecha";
+        }
+
+        Log::info('hay notificacion');
+
+        $envio_notificacionAuto = Notificacion::retornaNotificacionActual($fecha_actual);
+        if (empty($envio_notificacionAuto->all())) {
+            Log::info('hay notificacion manual');
+            $envio_notificacionManual = Notificacion::retornaNotificacionManual($fecha_actual);
+
+            $this->envioNotificacionManual($fecha_actual);
+            return "notificaciones manuales enviadas, no existen notificaciones automaticas para hoy";
+
+        } else {
+            Log::info('hay notificacion automatica');
+
+            $fecha_actualizacion = $this->fechaUltimaActualizacion();
+            Log::info('fecha ultima actualizacion' . $fecha_actualizacion);
+
+            if (!$fecha_actual->diffInHours($fecha_actualizacion)) //compara fecha actual con fecha ultima acualización
+            {
+
+                $envio_notificacion = Notificacion::retornaNotificacionManual($fecha_actual);
+                if (empty($envio_notificacion->all())) {
+                    $this->envioNotificacionAutomatica($fecha_actual);
+                    return "se enviaron notificaciones solo automaticas, ya que no hay manuales para hoy";
+                } else {
+                    $this->envioNotificacionAutoManual($fecha_actual);
+                    return "se han enviados notificaciones manuales y automaticas correspondientes a la fecha";
+                }
             } else {
-
-                Log::info('hay notificacion');
-
-                $envio_notificacionAuto = Notificacion::retornaNotificacionActual($fecha_actual);
-                if (empty($envio_notificacionAuto->all())) {
-                    Log::info('hay notificacion manual');
-                    $envio_notificacionManual = Notificacion::retornaNotificacionManual($fecha_actual);
+                $envio_notificacion = Notificacion::retornaNotificacionManual($fecha_actual);
+                if (empty($envio_notificacion->all())) {
+                    return "no existen notificaciones para esta fecha, ya que la tabla cumplimmiento de condicion no ha sido actualizada, y no existen notificaciones manuales para hoy";
+                } else {
 
                     $this->envioNotificacionManual($fecha_actual);
-                    return "notificaciones manuales enviadas, no existen notificaciones automaticas para hoy";
-
-                } else {
-                    Log::info('hay notificacion automatica');
-
-                    $fecha_actualizacion = $this->fechaUltimaActualizacion();
-                    Log::info('fecha ultima actualizacion' . $fecha_actualizacion);
-                    if ($fecha_actual->eq($fecha_actualizacion)) //compara fecha actual con fecha ultima acualización
-                    {
-
-                        $envio_notificacion = Notificacion::retornaNotificacionManual($fecha_actual);
-                        if (empty($envio_notificacion->all())) {
-                            $this->envioNotificacionAutomatica($fecha_actual);
-                            return "se enviaron notificaciones solo automaticas, ya que no hay manuales para hoy";
-                        } else {
-                            $this->envioNotificacionAutoManual($fecha_actual);
-                            return "se han enviados notificaciones manuales y automaticas correspondientes a la fecha";
-                        }
-                    } else {
-                        $envio_notificacion = Notificacion::retornaNotificacionManual($fecha_actual);
-                        if (empty($envio_notificacion->all())) {
-                            return "no existen notificaciones para esta fecha, ya que la tabla cumplimmiento de condicion no ha sido actualizada, y no existen notificaciones manuales para hoy";
-                        } else {
-
-                            $this->envioNotificacionManual($fecha_actual);
-                            return "notificaciones manuales enviadas, no existen notificaciones automaticas para hoy ya que no se ha actualizado la tabla cumplimiento de condición";
-                        }
-                    }
-
+                    return "notificaciones manuales enviadas, no existen notificaciones automaticas para hoy ya que no se ha actualizado la tabla cumplimiento de condición";
                 }
-
             }
+
         }
-        return "no es la hora configurada";
+
+
+
+
     }
 
     protected function fechaUltimaActualizacion()
@@ -402,20 +399,13 @@ class EnvioNotificacionController extends Controller
         $notificationBuilder->setTitle('Ingresa')
             ->setBody($mensaje_generico);
 
-        // dd($value);
+
         $notification = $notificationBuilder->build();
 
-        // $dataBuilder = new PayloadDataBuilder();
-        // $dataBuilder->addData('datos');
-        //dd();
-        //  $data = $dataBuilder->build();
-        //dd($notificacion->fcm_token);
-        //$token = $value->fcm_token;
-        // $token ="edmkzTTiNZA:APA91bHNDQjZvwmQzm1pP1JSLCAAlHpxu6yBExNEOZU-_CxOpQpK1y8G3EK50IP6rfbyx7a9veu_wei-gdKtY_W5E5nzxZMX2jvzPmti2pzkYdpXLkJMTuU9-Behg6xRqkmgchQbmsOw";
-        $downstreamResponse = FCM::sendTo($notificacion->fcm_token, $option, $notification); //, $data);
-        // $downstreamResponse = FCM::sendTo($tokens, $option, $notification);
 
-        //dd($downstreamResponse);
+        $downstreamResponse = FCM::sendTo($notificacion->fcm_token, $option, $notification);
+        dd($downstreamResponse);
+
         if ($downstreamResponse->numberSuccess() == 1) {
             // dd($fecha_actual);
 

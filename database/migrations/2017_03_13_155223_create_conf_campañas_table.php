@@ -12,14 +12,17 @@ class CreateConfCampañasTable extends Migration
      */
     public function up()
     {
-        Schema::create('conf_campanias', function (Blueprint $table) {
-            $table->increments('id');
-            $table->time('hora');
-            $table->string('mediodia');
-            $table->text('mensaje_generico');
-            $table->integer('num_notificaciones');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('conf_campanias')){
+
+            Schema::create('conf_campanias', function (Blueprint $table) {
+                $table->increments('id');
+                $table->time('hora');
+                $table->string('mediodia');
+                $table->text('mensaje_generico');
+                $table->integer('num_notificaciones');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

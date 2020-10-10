@@ -26,16 +26,16 @@ Listado de Campañas
 
   <div class="row" style="margin-bottom:10px">
     <div class="col-md-9" style="padding:0px;">
-      <div class="jumbotron-header" style=""> 
+      <div class="jumbotron-header" style="">
         Listado Campañas
-      </div> 
+      </div>
       <div class="row">
         <div class="cajas_cabecera_admin_usuario" style="">
           <div class="row">
             <form method="get" action="{{url('filtro')}}">
               <div class="col-md-1" style="width:16%">
                 <label style="margin:0px">ID CAMPAÑA</label><br>
-                <input class="" type="text" name="id_campania" id="input_page" value="{{$request->id_campania}}"> 
+                <input class="" type="text" name="id_campania" id="input_page" value="{{$request->id_campania}}">
               </div>
               <div class="col-md-1" style="width:16%">
                 <label style="margin:0px">ASUNTO</label><br>
@@ -72,7 +72,7 @@ Listado de Campañas
                       <option value="desactivado">Desactivado</option>
                     @endif
                   </select>
-                 
+
                 </div>
               </div>
 
@@ -87,8 +87,8 @@ Listado de Campañas
 
 
     </div>
-    <div class="col-md-3" style="padding-right: 0px; height:120px">
-      <div class="jumbotron-button" style=""> 
+    <div class="col-md-3" style="padding-right: 0px; height:120px; margin-top: 4px;">
+      <div class="jumbotron-button" style="">
       @if(Auth::user()->perfil_id==2)
       <a>
       @else
@@ -96,8 +96,8 @@ Listado de Campañas
       @endif
          <img src="{{url('img/AGREGAR.png')}}" style="width:30px; margin-right: 10px">Agregar Campaña
        </a>
-     </div> 
-     <div class="jumbotron-button" style=""> 
+     </div>
+     <div class="jumbotron-button" style="">
      @if(Auth::user()->perfil_id==2)
       <a>
       @else
@@ -105,7 +105,7 @@ Listado de Campañas
       @endif
         <img src="{{url('img/desactivado.png')}}" style="width:30px; margin-right: 10px; ">Detener todas las campañas
       </a>
-    </div> 
+    </div>
   </div>
 </div>
 <div class="row">
@@ -114,7 +114,7 @@ Listado de Campañas
 
     <table id="example" class="tabla_listado_campanias tablas" >
 
-      <thead class="tabla_cabecera_listado_campanias"> 
+      <thead class="tabla_cabecera_listado_campanias">
         <tr>
           <th>ID DE <br> CAMPAÑA</th>
           <th>ASUNTO</th>
@@ -164,7 +164,7 @@ Listado de Campañas
 
     </div>
   </div>
-  
+
 
 </div>
 
@@ -177,17 +177,17 @@ Listado de Campañas
   <div class="alerta ama-nar b_1" style="margin-top:10%">
     <div class="header_alerta">
       <a  class="detener" data-dismiss="modal" id="close-modal" aria-label="Close"></a>
-    </div>         
-    <div class="body_alerta">    
+    </div>
+    <div class="body_alerta">
 
       <div class="mensaje_alerta" id="mensaje_alerta_modal">¿DETENER TODO?</div>
     </div>
     <div class="footer_alerta">
       <button class="btn green" id="activar" type="submit" onclick="">SI</button>
       <button class="btn red" id="noActivar" type="submit" onclick="">NO</button>
-    </div>  
-  </div>  
-</div> 
+    </div>
+  </div>
+</div>
 
 <div id="guardo_id" style="display:none"></div>
 <div id="guardo_estado" style="display:none"></div>
@@ -197,7 +197,7 @@ Listado de Campañas
 
 <!-- script references -->
 <script type="text/javascript"  src="{{url('js/jquery-3.1.1.min.js')}}"></script>
-<script src="{{url('js/bootstrap.min.js')}}"></script>  
+<script src="{{url('js/bootstrap.min.js')}}"></script>
 <script src="js/bootstrap.min.js"></script>
 <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}"  >
 
@@ -225,11 +225,11 @@ Listado de Campañas
       if (estado=="desactivado") {
         $("#close-modal").removeClass("detener");
         $("#close-modal").addClass("play");
-        $("#mensaje_alerta_modal").text("Al activar la campaña, reanudarás el envío de este mensaje a los usuarios. ¿Deseas continuar?");      
+        $("#mensaje_alerta_modal").text("Al activar la campaña, reanudarás el envío de este mensaje a los usuarios. ¿Deseas continuar?");
         $("#Modal1").modal("show");
 
-        
-        
+
+
       }else{
         $("#close-modal").removeClass("play");
         $("#close-modal").addClass("detener");
@@ -237,8 +237,8 @@ Listado de Campañas
         $("#Modal1").modal("show");
       }
         //alert("");
-        //alert();      
-        
+        //alert();
+
 
 
 
@@ -277,17 +277,17 @@ Listado de Campañas
     $('#flash-overlay-modal').modal();
 
        /*$("#exportar_excel").click(function(){
-    
-          var  variables_get = $("#carga_variables_get").text(); 
 
-          $("input[type=checkbox]").each(function () { 
+          var  variables_get = $("#carga_variables_get").text();
+
+          $("input[type=checkbox]").each(function () {
 
             var elemento = $(this).attr('id');
 
             if($(this).is(':checked')){
               variables_get += '&'+elemento+'=si';
             }
-            
+
           });
 
           if(variables_get){
@@ -298,11 +298,11 @@ Listado de Campañas
 
       });
 
-  
 
-  
 
-  
+
+
+
     </script>
 
 
